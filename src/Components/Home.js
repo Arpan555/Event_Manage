@@ -1,7 +1,7 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import { useHistory } from 'react-router'
 import { useDispatch } from 'react-redux'
-import {showEvent,showWeekEvent} from "../Redux/Actions/allActions"
+import {showEvent} from "../Redux/Actions/allActions"
 const Home = () => {
     const [form,setForm]=useState({
         date:"",
@@ -22,14 +22,15 @@ const Home = () => {
     }
     const handleSubmit=(e)=>{
         e.preventDefault()
+        console.log(form)
         dispatch(showEvent(form))
         history.push("/showevent")
     }
     const handleWeekSubmit=(e)=>{
         e.preventDefault()
         console.log(week)
-        dispatch(showWeekEvent(week))
-        history.push("/showweekevent")
+        dispatch(showEvent(week))
+        history.push("/showevent")
     }
     const setAdd=(e)=>{
         setEvent(e.target.value)
@@ -46,7 +47,6 @@ return (
                     <label>Week</label>
                     <input type="radio" value="weekly" name="choose"/>
                 </div>
-
                 {event === "date" ?
                 <>
                 <h3>Search Event By Date</h3>

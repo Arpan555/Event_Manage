@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { addEvent,addWeekEvent } from '../Redux/Actions/allActions'
+import { addEvent } from '../Redux/Actions/allActions'
 import cuid from 'cuid'
 const AddEvent = () => {
     const [form,setForm]=useState({
@@ -23,11 +23,18 @@ const AddEvent = () => {
         let {name,value}=e.target;
         setWeek({...week,[name]:value});
     }
+    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const handleSubmit=(e)=>{
         e.preventDefault()
+        let currentdate = new Date(form.date);
+        let oneJan = new Date(currentdate.getFullYear(),0,1);
+        let numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
+        let result = Math.ceil(( currentdate.getDay() + 1 + numberOfDays) / 7);
         dispatch(addEvent({
             date:form.date,
             eventName:form.eventName,
+            day:days[currentdate.getDay()],
+            weeknumber:result,
             id:cuid()
         }))
         setForm({
@@ -35,7 +42,6 @@ const AddEvent = () => {
             eventName:"",
         })
     }
-let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const handleWeekSubmit=(e)=>{
         e.preventDefault()
         let d = new Date(week.date);
@@ -43,13 +49,14 @@ const handleWeekSubmit=(e)=>{
         let oneJan = new Date(currentdate.getFullYear(),0,1);
         let numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
         let result = Math.ceil(( currentdate.getDay() + 1 + numberOfDays) / 7);
-        dispatch(addWeekEvent({
+        dispatch(addEvent({
             date:week.date,
             eventName:week.eventName,
             day:days[d.getDay()],
             weeknumber:result,
             id:cuid()
         }))
+        
         setWeek({
             date:"",
             eventName:"",

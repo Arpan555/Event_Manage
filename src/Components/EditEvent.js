@@ -5,9 +5,7 @@ import { editEvent,resetEvent } from '../Redux/Actions/allActions'
 const EditEvent = () => {
     const editData = useSelector(state => state.reducer.setEvent)
     const [form,setForm]=useState({
-        date:editData.date,
         eventName:editData.eventName,
-        id:editData.id
     })
     const history=useHistory()
     const dispatch = useDispatch()
@@ -15,11 +13,18 @@ const EditEvent = () => {
         let { name, value } = e.target;
     setForm({ ...form, [name]: value });
     }
+    console.log(editData)
+    console.log(form)
     const handleSubmit=(e)=>{
         e.preventDefault()
-        dispatch(editEvent(form))
+        dispatch(editEvent({
+            eventName:form.eventName,
+            id:editData.id,
+            day:editData.day,
+            date:editData.date,
+            weeknumber:editData.weeknumber
+        }))
         setForm({
-            date:"",
             eventName:"",
             id:editData.id,
         })
@@ -32,8 +37,6 @@ return (
                 <input type="button" value="Back To Home" className="btn btn-dark" onClick={()=> history.push("/")}/><br/><br/><br/>
                     <h1>Edit Event</h1><br/><br/>
                     <form onSubmit={handleSubmit}>
-                        <label>Date</label>
-                        <input type="date" name="date" required defaultValue={editData.date} onChange={handleChange} /><br/><br/>
                         <label>Event</label>
                         <input type="text" name="eventName" required defaultValue={editData.eventName} onChange={handleChange} /><br/><br/>
                         <input type="submit" value="Submit Event" />
