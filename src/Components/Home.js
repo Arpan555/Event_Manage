@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { useHistory } from 'react-router'
 import { useDispatch } from 'react-redux'
 import {showEvent,showWeekEvent} from "../Redux/Actions/allActions"
@@ -7,8 +7,9 @@ const Home = () => {
         date:"",
         })
     const [week,setWeek]=useState({
-      day:""  
+        noofweek:""  
     })
+    const [event,setEvent]=useState("")
     const dispatch=useDispatch()
     const history=useHistory()
     const handleChange=(e)=>{
@@ -26,36 +27,41 @@ const Home = () => {
     }
     const handleWeekSubmit=(e)=>{
         e.preventDefault()
+        console.log(week)
         dispatch(showWeekEvent(week))
         history.push("/showweekevent")
     }
+    const setAdd=(e)=>{
+        setEvent(e.target.value)
+    }
+  
 return (
         <div>
             <center>
                 <input type="button" className="btn btn-primary" value="Add Event" onClick={()=> history.push("/add")}/> <br/><br/><br/>
-                
+                <h2>Search</h2>
+                <div onChange={setAdd}>
+                    <label>Date</label>
+                    <input type="radio" value="date" name="choose" /> <br/>
+                    <label>Week</label>
+                    <input type="radio" value="weekly" name="choose"/>
+                </div>
+
+                {event === "date" ?
+                <>
                 <h3>Search Event By Date</h3>
                 <form onSubmit={handleSubmit}>
                     <label>Date</label>
                     <input type="date" name="date" required value={form.date} onChange={handleChange} /><br/><br/>
                     <input className="btn btn-primary" type ="submit" value="Submit" />
-                </form><br/><br/><hr/>
-                <h3>Search Event By Day</h3>
+                </form></>:""}
+               {event === "weekly" ? <>
+                <h3>Search Event By Week</h3>
                 <form onSubmit={handleWeekSubmit}>
-                    <label>Day</label>
-                    <select name="day" onChange={handleWeekChange}>
-                        <option value="sunday">Sunday</option>
-                        <option value="monday">Monday</option>
-                        <option value="tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="thursday">Thursday</option>
-                        <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option>
-                    </select>
-                    <input type="submit" value="Submit" className="btn btn-primary" />
-
-
-                </form>
+                    <label>No. of Week</label>
+                    <input type="number" name="noofweek" value={week.noofweek} min="1" max="52" onChange={handleWeekChange} />
+                    <input type="submit" value="Submit" className="btn btn-primary m-2" />
+                </form></>:""}
             </center>
         </div>
     )

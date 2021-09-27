@@ -6,10 +6,12 @@ import {setWeekEvent,deleteWeekEvent} from "../Redux/Actions/allActions"
 const ShowWeekEvent = () => {
     const dispatch = useDispatch()
     const history=useHistory()
-    const d = useSelector(state =>state.reducer.showDay)
+    const d = useSelector(state =>state.reducer.showWeekNo)
     const allData=useSelector(state=>state.reducer.weekEvents)
-    const todayData=allData.filter(s=> s.day===d.day)
-    console.log(todayData)
+    const todayData=allData.filter(data=> JSON.stringify(data.weeknumber)===d.noofweek )
+    todayData.sort((a,b)=> 
+    Date.parse(a.date) - Date.parse(b.date)  
+    )
     const deleteWeekData=(id)=>{
         dispatch(deleteWeekEvent(id))
     }
@@ -21,6 +23,7 @@ const ShowWeekEvent = () => {
             {todayData.length>0 && todayData.map(d =>
                 <div className="box" >
                 <p>Event: {d.eventName} </p>
+                <p>Date: {d.date} </p>
                 <p>Day: {d.day} </p>
                 <input type="button" value="Edit" className="btn btn-dark m-3" onClick={()=> {
                 dispatch(setWeekEvent(d)) 

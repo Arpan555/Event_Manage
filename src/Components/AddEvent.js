@@ -9,9 +9,10 @@ const AddEvent = () => {
         eventName:""
     })
     const [week,setWeek]=useState({
-        day:"sunday",
+        date:"",
         eventName:""
     })
+    const [event,setEvent]=useState("")
     const history=useHistory()
     const dispatch = useDispatch()
     const handleChange=(e)=>{
@@ -31,49 +32,65 @@ const AddEvent = () => {
         }))
         setForm({
             date:"",
-            eventName:""
+            eventName:"",
         })
     }
-    const handleWeekSubmit=(e)=>{
+let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const handleWeekSubmit=(e)=>{
         e.preventDefault()
+        let d = new Date(week.date);
+        let currentdate = new Date(week.date);
+        let oneJan = new Date(currentdate.getFullYear(),0,1);
+        let numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
+        let result = Math.ceil(( currentdate.getDay() + 1 + numberOfDays) / 7);
         dispatch(addWeekEvent({
-            day:week.day,
+            date:week.date,
             eventName:week.eventName,
+            day:days[d.getDay()],
+            weeknumber:result,
             id:cuid()
         }))
         setWeek({
-            day:"",
-            eventName:""
+            date:"",
+            eventName:"",
+            
         })
+    }
+    const setAdd=e=>{
+        setEvent(e.target.value)
     }
     return (
         <div>
             <center>
                 <input type="button" value="Back To Home" className="btn btn-dark" onClick={()=> history.push("/")}/><br/><br/><br/>
-                <h1>Add Event</h1><br/><br/>
+                
+                <div onChange={setAdd}>
+                    <label>Date</label>
+                    <input type="radio" value="date" name="choose" /> <br/>
+                    <label>Week</label>
+                    <input type="radio" value="weekly" name="choose"/>
+                </div>
+                
+                
+                {event ==="date" ?<>
+                <h1>Add Event</h1><br/>
                 <form onSubmit={handleSubmit}>
                     <label>Date</label>
                     <input type="date" name="date" required value={form.date} onChange={handleChange} /><br/><br/>
                     <label>Event</label>
                     <input type="text" name="eventName" required value={form.eventName} onChange={handleChange} /><br/><br/>
                     <input type="submit" value="Add Event" />
-                </form><br/><br/><hr/>
-                <h2>Week Day</h2>
+                </form><br/></> :"" }
+                {event ==="weekly" ? 
+                <>
+                <h2>Weekly Event</h2>
                 <form onSubmit={handleWeekSubmit}>
-                <label>Day</label>
-                    <select name="day" onChange={handleWeekChange}>
-                        <option value="sunday">Sunday</option>
-                        <option value="monday">Monday</option>
-                        <option value="tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="thursday">Thursday</option>
-                        <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option>
-                    </select>
+                    <lebel>Date</lebel>
+                    <input type="date" name="date" value={week.date} onChange={handleWeekChange}/><br/><br/>
                     <label>Event</label>
                     <input type="text" name="eventName" required value={week.eventName} onChange={handleWeekChange} /><br/><br/>
                     <input type="submit" value="Add Event" />
-                </form>
+                </form></>:""}
             </center>
         </div>
     )

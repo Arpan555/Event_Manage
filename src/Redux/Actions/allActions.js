@@ -7,6 +7,7 @@ export const addEvent=(data)=>{
     }
 }
 export const addWeekEvent=(data)=>{
+    console.log(data)
     return{
         type:ADD_WEEK_EVENT,
         payload:data
@@ -19,6 +20,7 @@ export const showEvent=(data)=>{
     }
 }
 export const showWeekEvent=(data)=>{
+    console.log(data)
     return{
         type:SHOW_WEEK_EVENT,
         payload:data
@@ -48,7 +50,6 @@ export const resetEvent=()=>{
     }
 }
 export const editWeekEvent=(data)=>{
-    console.log(data)
     return{
         type:EDIT_WEEK_EVENT,
         payload:data

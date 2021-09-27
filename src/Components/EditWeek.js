@@ -4,9 +4,8 @@ import { useHistory } from 'react-router-dom'
 import { editWeekEvent,resetWeekEvent } from '../Redux/Actions/allActions'
 const EditWeek = () => {
     const editData= useSelector(state => state.reducer.setWeekEvent)
-    console.log(editData)
     const [form,setForm]=useState({
-        day:editData.day,
+        date:editData.date,
         eventName:editData.eventName,
         id:editData.id
     })
@@ -18,10 +17,9 @@ const EditWeek = () => {
     }
     const handleSubmit=(e)=>{
         e.preventDefault()
-        console.log(form)
         dispatch(editWeekEvent(form))
         setForm({
-            day:"",
+            date:"",
             eventName:"",
             id:editData.id,
         })
@@ -35,16 +33,8 @@ const EditWeek = () => {
             <input type="button" value="Back To Home" className="btn btn-dark" onClick={()=> history.push("/")}/><br/><br/><br/>
             <h1>Edit Event</h1><br/><br/>
                     <form onSubmit={handleSubmit}>
-                    <label>Day</label>
-                    <select name="day" defaultValue={editData.day} onChange={handleChange}>
-                        <option value="sunday">Sunday</option>
-                        <option value="monday">Monday</option>
-                        <option value="tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="thursday">Thursday</option>
-                        <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option>
-                    </select>
+                    <label>Date</label>
+                    <input type="date" name="date" required defaultValue={editData.date} onChange={handleChange} />
                     <label>Event</label>
                     <input type="text" name="eventName" required defaultValue={editData.eventName} onChange={handleChange} /><br/><br/>
                     <input type="submit" value="Submit" />

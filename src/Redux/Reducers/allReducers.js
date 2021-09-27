@@ -4,12 +4,11 @@ const inititalState={
     events:[],
     weekEvents:[],
     showDate:"",
-    showDay:"",
+    showWeekNo:"",
     setEvent:{},
     setWeekEvent:{}
 }
 function reducer(state=inititalState,action){
-    console.log(action.payload)
     switch(action.type){
         case ADD_EVENT:
             return{
@@ -27,9 +26,10 @@ function reducer(state=inititalState,action){
                 showDate:action.payload
             }
         case SHOW_WEEK_EVENT:
+            console.log(action.payload)
             return{
                 ...state,
-                showDay:action.payload
+                showWeekNo:action.payload
             }
         case SET_EVENT:
             return{
