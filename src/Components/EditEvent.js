@@ -36,7 +36,7 @@ return (
                         <input type="date" name="date" required defaultValue={editData.date} onChange={handleChange} /><br/><br/>
                         <label>Event</label>
                         <input type="text" name="eventName" required defaultValue={editData.eventName} onChange={handleChange} /><br/><br/>
-                        <input type="submit" value="Edit Event" />
+                        <input type="submit" value="Submit Event" />
                     </form>
             </center>
         </div>
