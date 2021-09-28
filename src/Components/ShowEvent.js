@@ -15,7 +15,8 @@ const ShowEvent = () => {
     if(d.date){
         todayData=allData.filter(data=> data.date === d.date)
     }
-    console.log(todayData)
+    todayData.sort((a,b)=>
+    Date.parse(a.date)-Date.parse(b.date))
     const deleteData=(id)=>{
         dispatch(deleteEvent(id))
     }
@@ -25,7 +26,7 @@ return (
             <input type="button" value="Back To Home" className="btn btn-dark" onClick={()=> history.push("/")}/><br/><br/><br/>
             {todayData.length>0 ? <h1>Event Details</h1> : "no Event Found" }
             {todayData.length>0 && todayData.map(d =>
-                <div className="box" >
+                <div className="box" key={d.id} >
                 <p>Event: {d.eventName} </p>
                 <p>Date: {d.date} </p>
                 <p>Day:{d.day} </p>

@@ -1,8 +1,9 @@
 import React,{useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { addEvent } from '../Redux/Actions/allActions'
+import { addEvent} from '../Redux/Actions/allActions'
 import cuid from 'cuid'
+import moment from 'moment'
 const AddEvent = () => {
     const [form,setForm]=useState({
         date:"",
@@ -27,14 +28,11 @@ const AddEvent = () => {
     const handleSubmit=(e)=>{
         e.preventDefault()
         let currentdate = new Date(form.date);
-        let oneJan = new Date(currentdate.getFullYear(),0,1);
-        let numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
-        let result = Math.ceil(( currentdate.getDay() + 1 + numberOfDays) / 7);
         dispatch(addEvent({
             date:form.date,
             eventName:form.eventName,
             day:days[currentdate.getDay()],
-            weeknumber:result,
+            weeknumber:moment(form.date).week(),
             id:cuid()
         }))
         setForm({
@@ -45,19 +43,16 @@ const AddEvent = () => {
 const handleWeekSubmit=(e)=>{
         e.preventDefault()
         let d = new Date(week.date);
-        let currentdate = new Date(week.date);
-        let oneJan = new Date(currentdate.getFullYear(),0,1);
-        let numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
-        let result = Math.ceil(( currentdate.getDay() + 1 + numberOfDays) / 7);
-        dispatch(addEvent({
-            date:week.date,
-            eventName:week.eventName,
-            day:days[d.getDay()],
-            weeknumber:result,
-            id:cuid()
-        }))
-        
-        setWeek({
+        for(let i=0 ; i<=53-moment(week.date).week() ; i++)
+         {
+               dispatch(addEvent({
+               date: moment(week.date).add(7*i,"days").format("YYYY-MM-DD"),
+               eventName: week.eventName,
+               day: days[d.getDay()],
+               weeknumber:moment(week.date).week()+i,
+               id:cuid()}))
+         }
+         setWeek({
             date:"",
             eventName:"",
             
@@ -72,9 +67,9 @@ const handleWeekSubmit=(e)=>{
                 <input type="button" value="Back To Home" className="btn btn-dark" onClick={()=> history.push("/")}/><br/><br/><br/>
                 
                 <div onChange={setAdd}>
-                    <label>Date</label>
+                    <lebel>Date</lebel>
                     <input type="radio" value="date" name="choose" /> <br/>
-                    <label>Week</label>
+                    <lebel>Week</lebel>
                     <input type="radio" value="weekly" name="choose"/>
                 </div>
                 
@@ -82,9 +77,9 @@ const handleWeekSubmit=(e)=>{
                 {event ==="date" ?<>
                 <h1>Add Event</h1><br/>
                 <form onSubmit={handleSubmit}>
-                    <label>Date</label>
+                    <lebel>Date</lebel>
                     <input type="date" name="date" required value={form.date} onChange={handleChange} /><br/><br/>
-                    <label>Event</label>
+                    <lebel>Event</lebel>
                     <input type="text" name="eventName" required value={form.eventName} onChange={handleChange} /><br/><br/>
                     <input type="submit" value="Add Event" />
                 </form><br/></> :"" }
@@ -94,7 +89,7 @@ const handleWeekSubmit=(e)=>{
                 <form onSubmit={handleWeekSubmit}>
                     <lebel>Date</lebel>
                     <input type="date" name="date" value={week.date} onChange={handleWeekChange}/><br/><br/>
-                    <label>Event</label>
+                    <lebel>Event</lebel>
                     <input type="text" name="eventName" required value={week.eventName} onChange={handleWeekChange} /><br/><br/>
                     <input type="submit" value="Add Event" />
                 </form></>:""}

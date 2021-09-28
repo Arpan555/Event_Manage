@@ -13,8 +13,6 @@ const EditEvent = () => {
         let { name, value } = e.target;
     setForm({ ...form, [name]: value });
     }
-    console.log(editData)
-    console.log(form)
     const handleSubmit=(e)=>{
         e.preventDefault()
         dispatch(editEvent({
@@ -37,7 +35,7 @@ return (
                 <input type="button" value="Back To Home" className="btn btn-dark" onClick={()=> history.push("/")}/><br/><br/><br/>
                     <h1>Edit Event</h1><br/><br/>
                     <form onSubmit={handleSubmit}>
-                        <label>Event</label>
+                        <lebel>Event</lebel>
                         <input type="text" name="eventName" required defaultValue={editData.eventName} onChange={handleChange} /><br/><br/>
                         <input type="submit" value="Submit Event" />
                     </form>

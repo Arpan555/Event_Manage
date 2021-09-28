@@ -6,7 +6,6 @@ export const addEvent=(data)=>{
         payload:data
     }
 }
-
 export const showEvent=(data)=>{
     return{
         type:SHOW_EVENT,
