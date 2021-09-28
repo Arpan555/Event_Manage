@@ -9,12 +9,13 @@ const ShowEvent = () => {
     const history=useHistory()
     const d = useSelector(state =>state.reducer.showData)
     const allData=useSelector(state=>state.reducer.events)
-    if (d.noofweek){
-        todayData=allData.filter(data=> JSON.stringify(data.weeknumber) === d.noofweek)
-    }
     if(d.date){
         todayData=allData.filter(data=> data.date === d.date)
     }
+    if(d.weekno){
+        todayData=allData.filter(data=> JSON.stringify(data.weeknumber) === d.weekno)
+    }
+    
     todayData.sort((a,b)=>
     Date.parse(a.date)-Date.parse(b.date))
     const deleteData=(id)=>{

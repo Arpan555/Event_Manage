@@ -7,7 +7,7 @@ const Home = () => {
         date:"",
         })
     const [week,setWeek]=useState({
-        noofweek:""  
+        weekno:""  
     })
     const [event,setEvent]=useState("")
     const dispatch=useDispatch()
@@ -42,7 +42,7 @@ return (
                 <div onChange={setAdd}>
                     <lebel>Date</lebel>
                     <input type="radio" value="date" name="choose" /> <br/>
-                    <lebel>Week</lebel>
+                    <lebel>Week Number</lebel>
                     <input type="radio" value="weekly" name="choose"/>
                 </div>
                 {event === "date" ?
@@ -54,10 +54,10 @@ return (
                     <input className="btn btn-primary" type ="submit" value="Submit" />
                 </form></>:""}
                {event === "weekly" ? <>
-                <h3>Search Event By Week</h3>
+                <h3>Search Event By Week </h3>
                 <form onSubmit={handleWeekSubmit}>
-                    <lebel>No. of Week</lebel>
-                    <input type="number" name="noofweek" value={week.noofweek} min="1" max="53" onChange={handleWeekChange} />
+                    <lebel>Week</lebel>
+                    <input type="number" name="weekno" value={week.weekno} onChange={handleWeekChange} />
                     <input type="submit" value="Submit" className="btn btn-primary m-2" />
                 </form></>:""}
             </center>

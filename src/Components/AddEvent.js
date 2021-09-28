@@ -43,15 +43,12 @@ const AddEvent = () => {
 const handleWeekSubmit=(e)=>{
         e.preventDefault()
         let d = new Date(week.date);
-        for(let i=0 ; i<=53-moment(week.date).week() ; i++)
-         {
-               dispatch(addEvent({
-               date: moment(week.date).add(7*i,"days").format("YYYY-MM-DD"),
+        dispatch(addEvent({
+               date: moment(week.date).add(7,"days").format("YYYY-MM-DD"),
                eventName: week.eventName,
                day: days[d.getDay()],
-               weeknumber:moment(week.date).week()+i,
+               weeknumber:moment(week.date).week(),
                id:cuid()}))
-         }
          setWeek({
             date:"",
             eventName:"",
@@ -72,7 +69,6 @@ const handleWeekSubmit=(e)=>{
                     <lebel>Week</lebel>
                     <input type="radio" value="weekly" name="choose"/>
                 </div>
-                
                 
                 {event ==="date" ?<>
                 <h1>Add Event</h1><br/>
